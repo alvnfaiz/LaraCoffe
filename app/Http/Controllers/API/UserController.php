@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function profile(Request $request){
       if(auth('sanctum')->check()){
-        return response()->json(['status'=>'success','data' => $request->user()]);
+        return response()->json(['status'=>'success','data' => auth('sanctum')->user()]);
       }else{
         return response()->json(['status'=>'error','message' => 'Sepertinya anda belum login, atau token sudah kadaluarsa, silahkan login terlebih dahulu'], 401);
       }
@@ -20,7 +20,7 @@ class UserController extends Controller
 
     public function user(Request $request){
       if(auth('sanctum')->check()){
-        return response()->json(['status'=>'success','data' => $request->user()]);
+        return response()->json(['status'=>'success','data' => auth('sanctum')->user()]);
       }else{
         return response()->json(['status'=>'error','message' => 'Sepertinya anda belum login, atau token sudah kadaluarsa, silahkan login terlebih dahulu'], 401);
       }
