@@ -40,11 +40,11 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // if (!Auth::attempt($request->only('email', 'password')))
-        // {
-        //     return response()
-        //         ->json(['message' => 'Unauthorized'], 401);
-        // }
+        if (!Auth::attempt($request->only('email', 'password')))
+        {
+            return response()
+                ->json(['message' => 'Unauthorized'], 401);
+        }
 
         $user = User::where('email', $request['email'])->firstOrFail();
 
@@ -61,10 +61,16 @@ class AuthController extends Controller
     // method for user logout and delete token
     public function logout()
     {
-        auth()->user()->tokens()->delete();
+        if(auth('sanctum')->check()){
+            auth('sanctum')->user()->token()->delete();
+            return response()->json(['status'=>'success','message' => 'Logout Successfully']);
+        }else{
+            return response()->json(['status'=>'error','message' => 'Unauthorized'], 401);
+        }
+        // auth()->user()->tokens()->delete();
 
-        return [
-            'message' => 'You have successfully logged out and the token was successfully deleted'
-        ];
+        // return [
+        //     'message' => 'You have successfully logged out and the token was successfully deleted'
+        // ];
     }
 }
