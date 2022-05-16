@@ -40,22 +40,23 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // if (!Auth::attempt($request->only('email', 'password')))
-        // {
-        //     return response()
-        //         ->json(['message' => 'Unauthorized'], 401);
-        // }
+        $credentials = $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string'
+        ]);
 
-        $user = User::where('email', $request['email'])->firstOrFail();
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()
-            ->json([
-                'message' => 'Hi '.$user->name.', welcome to home',
-                'role' => $user->role,
-                'access_token' => $token, 
-                'token_type' => 'Bearer', ]);
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            $token = $user->createToken('auth_token')->plainTextToken;
+            return response()
+                ->json([
+                    'message' => 'Hi '.$user->name.', welcome to home',
+                    'data' => $user,
+                    'access_token' => $token, 
+                    'token_type' => 'Bearer', ]);
+        } else {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
     }
 
     // method for user logout and delete token
