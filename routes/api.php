@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', [App\Http\Controllers\API\UserController::class, 'user']);
 Route::get('/user/list', [App\Http\Controllers\API\UserController::class, 'userList']);
 
+Route::post('/valid-login', [App\Http\Controllers\API\AuthController::class, 'validLogin']);
+
 //API route for register new user
 Route::post('/register', [App\Http\Controllers\API\AuthController::class, 'register']);
 //API route for login user

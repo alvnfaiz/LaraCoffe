@@ -74,4 +74,9 @@ class AuthController extends Controller
         //     'message' => 'You have successfully logged out and the token was successfully deleted'
         // ];
     }
+
+    public function valid_login(Request $request)
+    {
+        return auth('sanctum')->check();
+    }
 }
