@@ -75,8 +75,8 @@ class AuthController extends Controller
         // ];
     }
 
-    public function valid_login(Request $request)
+    public function validLogin(Request $request)
     {
-        return auth('sanctum')->check();
+        return response()->json(['status'=>auth('sanctum')->check()]);
     }
 }
